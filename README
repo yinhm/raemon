@@ -1,0 +1,20 @@
+Raemon
+======
+
+Raemon is a Ruby framework for building daemons. It's designed for writing
+master/worker pre-forking servers running on UNIX. More to come.
+
+
+Credits
+-------
+By: Peter Kieltyka
+Copyright (c) 2007-2009 NuLayer Inc. All rights reserved.
+
+
+Thanks
+------
+Raemon was influenced by the following projects:
+
+servolux   - http://github.com/TwP/servolux
+daemon_kit - http://github.com/kennethkalmer/daemon-kit
+rails      - http://github.com/rails/rails

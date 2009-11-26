@@ -1,0 +1,8 @@
+development:
+    peter: true
+
+production:
+    peter: false
+    
+test:
+    peter: true

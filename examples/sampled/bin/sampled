@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+# Setup environment
+case ARGV.first
+when nil
+  ENV['RAEMON_ENV'] = 'development'
+when 'start'
+  ENV['RAEMON_ENV'] = 'production'
+when 'stop'
+  @shutdown = true
+end
+
+# Load Raemon Server
+require File.dirname(__FILE__) + '/../config/environment'
+
+if @shutdown
+  Raemon::Server.shutdown!
+else
+  Raemon::Server.startup!
+end
