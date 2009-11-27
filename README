@@ -3,8 +3,8 @@ Raemon
 
 Raemon is a Ruby framework for building daemons. It's designed for writing
 master/worker pre-forking servers running on UNIX. The library has been
-tested on both 1.8.7 and 1.9.1 and carries no dependencies outside of
-the Ruby core. More to come.
+tested on both 1.8.7 and 1.9.1 and carries no dependencies outside of the
+Ruby core. More to come.
 
 By: Peter Kieltyka
 Copyright (c) 2007-2009 NuLayer Inc. All rights reserved.
@@ -43,8 +43,19 @@ Raemon::Server provides tools that helps build daemon applications
 that feel like a Ruby on Rails application. See examples/sampled.
 
 
+Installation
+============
+Via gemcutter:
+$ gem install raemon
+
+From source:
+$ git clone git://github.com/pkieltyka/raemon.git
+$ cd raemon && rake build
+$ gem install pkg/raemon-X.X.X.gem
+
+
 TODO
-----
+====
 1. Test cases
 2. Create a UNIX socket connection between the master and workers
 3. Setup a heartbeat between the master and the workers
@@ -54,7 +65,7 @@ TODO
 
 
 Thanks
-------
+======
 Raemon was influenced by the following projects:
 
 servolux   - http://github.com/TwP/servolux
