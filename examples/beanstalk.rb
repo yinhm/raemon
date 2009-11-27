@@ -4,7 +4,7 @@ require 'rubygems'
 require 'raemon'
 require 'beanstalk-client'
 
-class Test
+class JobWorker
   include Raemon::Worker
   
   def start
@@ -40,12 +40,12 @@ class Test
 
 end
 
-ROOT_DIR = '/Users/peter/Desktop'
+ROOT_DIR = File.expand_path('~')
 
-# Raemon::Master.startup 3, Test, {
+# Raemon::Master.startup 3, JobWorker, {
 #   :detach   => true,
 #   :logger   => Logger.new("#{ROOT_DIR}/beanstalk.log"),
 #   :pid_file => "#{ROOT_DIR}/beanstalk.pid"
 # }
 
-Raemon::Master.startup 3, Test
+Raemon::Master.startup 3, JobWorker

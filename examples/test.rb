@@ -26,6 +26,4 @@ class Test
 
 end
 
-ROOT_DIR = '/Users/peter/Desktop'
-
 Raemon::Master.startup 3, Test

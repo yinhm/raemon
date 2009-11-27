@@ -2,13 +2,55 @@ Raemon
 ======
 
 Raemon is a Ruby framework for building daemons. It's designed for writing
-master/worker pre-forking servers running on UNIX. More to come.
+master/worker pre-forking servers running on UNIX. The library has been
+tested on both 1.8.7 and 1.9.1 and carries no dependencies outside of
+the Ruby core. More to come.
 
-
-Credits
--------
 By: Peter Kieltyka
 Copyright (c) 2007-2009 NuLayer Inc. All rights reserved.
+
+
+Usage
+=====
+
+Raemon supports two modes of use: as a lightweight master/worker library
+or as a full daemon server.
+
+
+Lightweight master/worker library
+---------------------------------
+Simply mixin the Raemon::Worker module into any class and implement the
+'start' and 'execute' methods.
+
+start   - called when the worker process is first created
+execute - called to begin the execution of the worker
+
+The Raemon::Worker module also provides a 'shutting_down?' helper method
+that should be tested between iterations in the worker loop to gracefully
+shutdown the worker.
+
+To start the workers use the Raemon::Master class.
+
+See examples/test.rb and examples/beanstalk.rb for how the library works
+in this scenario.
+
+Also, you can find an evented Beanstalk example in examples/evented.rb.
+
+
+Daemon server
+-------------
+Raemon::Server provides tools that helps build daemon applications
+that feel like a Ruby on Rails application. See examples/sampled.
+
+
+TODO
+----
+1. Test cases
+2. Create a UNIX socket connection between the master and workers
+3. Setup a heartbeat between the master and the workers
+4. Monitor memory usage of the workers in the master and restart/stop
+   a worker if its out of whack
+5. Write a daemon generator (as examples/sampled)
 
 
 Thanks

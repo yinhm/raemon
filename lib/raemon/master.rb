@@ -74,7 +74,5 @@ module Raemon
       trap('TERM', shutdown_block)
     end
     
-    def debugging?; @debug; end
-    
   end
 end
