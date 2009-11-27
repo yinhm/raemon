@@ -59,11 +59,13 @@ module Raemon
       end
       
       def load_initializers
-        load_folder("#{RAEMON_ROOT}/config/initializers")
+        load_folder "#{RAEMON_ROOT}/config/initializers"
       end
 
       def load_lib
-        load_folder("#{RAEMON_ROOT}/lib")
+        libdir = "#{RAEMON_ROOT}/lib"
+        $LOAD_PATH.unshift libdir
+        load_folder libdir
       end
       
       def load_folder(path)

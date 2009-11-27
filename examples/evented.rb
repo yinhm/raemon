@@ -22,10 +22,12 @@ class EventedJobWorker
     EventMachine.run do
       @queue = EMJack::Connection.new
       
-      @queue.each_job(5) do |job|
+      @queue.each_job(5) do |job|        
         logger.info "(#{Process.ppid}:#{Process.pid}) got job: #{job.inspect}"
         # process(job)
         @queue.delete(job)
+        
+        stop if shutting_down?
       end
       
       @queue.on_error do |error|
