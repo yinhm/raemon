@@ -8,7 +8,7 @@ module Raemon
     
     module ClassMethods
       def start!(master=nil)
-        child_pid = Kernel.fork do
+        child_pid = Process.fork do
           # Child process
           worker = new(master)
           worker.execute

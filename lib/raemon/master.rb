@@ -53,7 +53,7 @@ module Raemon
     end
     
     def daemonize
-      exit if Kernel.fork
+      exit if Process.fork
       
       Process.setsid
     

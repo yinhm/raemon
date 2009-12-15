@@ -12,11 +12,7 @@ module Raemon
       end
       
       def startup!
-        load_environment
-        load_initializers
-        load_lib
-        
-        initialize_logger
+        initialize_application
 
         # Check if the server is already running
         if running?
@@ -40,17 +36,33 @@ module Raemon
         Raemon::Master.shutdown pid_file
       end
       
+      def console!
+        initialize_application
+      end
+      
+      def initialize_application
+        load_environment
+        load_initializers
+        load_lib
+        
+        initialize_logger
+      end
+      
       def initialize_logger
         return if !config.logger.nil?
-        
+
+        # Create our own logger if one wasn't provided
         if config.detach
           config.logger = Logger.new("#{RAEMON_ROOT}/log/#{server_name_key}.log")
         else
           config.logger = Logger.new(STDOUT)
         end
         
+        # Set the logger level
+        config.logger.level = instance_eval("Logger::#{config.log_level.to_s.upcase}")
+        
         # TODO: format the logger
-        # config.logger.format
+        # config.logger.formatter
       end
       
       def load_environment
