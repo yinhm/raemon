@@ -8,3 +8,4 @@ end
 require 'raemon/server'
 require 'raemon/master'
 require 'raemon/worker'
+require 'raemon/util'

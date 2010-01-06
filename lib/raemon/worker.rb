@@ -2,50 +2,38 @@ module Raemon
   module Worker
     
     def self.included(base)
-      base.send :extend, ClassMethods
       base.send :include, InstanceMethods
-    end
-    
-    module ClassMethods
-      def start!(master=nil)
-        child_pid = Process.fork do
-          # Child process
-          worker = new(master)
-          worker.execute
-        end
-        
-        # Parent returns the worker's pid
-        return child_pid
-      end
-    
-      def stop!(worker_pid)
-        Process.kill('QUIT', worker_pid) rescue nil
-      end
     end
     
     module InstanceMethods
       attr_reader :logger
+      attr_accessor :nr
+      attr_accessor :tmp
       
-      def initialize(master=nil)
+      def initialize(master, nr, tmp)
         @master = master
         @logger = master.logger if master
+        self.nr = nr
+        self.tmp = tmp
         
-        setup_signals
-        start
+        before_start if self.respond_to? :before_start
       end
-        
-      def start;                                      end
-      def stop;                                       end
-      def shutting_down?;   @shutting_down;           end
-      def execute;          raise "Abstract method";  end
 
-      def setup_signals
-        quit_block = Proc.new { @shutting_down = true }
-        force_quit_block = Proc.new { exit }
+      # worker objects may be compared to just plain numbers
+      def ==(other_nr)
+        self.nr == other_nr
+      end
 
-        trap('QUIT', quit_block)
-        trap('TERM', force_quit_block)
-        trap('INT') {} # Reset INT signal handler
+      def execute
+        raise "Abstract method"
+      end
+
+      def shutdown
+        Timeout::timeout(5) do
+          before_shutdown rescue nil if self.respond_to? :before_shutdown
+        end
+      ensure
+        exit!(0)
       end
     end
     
