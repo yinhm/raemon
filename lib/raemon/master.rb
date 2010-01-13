@@ -47,7 +47,7 @@ module Raemon
       self.detach = opts[:detach] || false
       self.logger = opts[:logger] || Logger.new(STDOUT)
       self.pid_file = opts[:pid_file]
-      self.timeout = 60
+      self.timeout = opts[:timeout] || 60 # 1 min
       # @worker_pids = []
       
       daemonize if detach
@@ -289,14 +289,6 @@ module Raemon
         
         ppid == Process.ppid or return
         alive.chmod(m = 0 == m ? 1 : 0)
-        begin
-          # timeout used so we can detect parent death:
-          ret = IO.select(SELF_PIPE, nil, nil, timeout) or redo
-          ready = ret.first
-        # rescue Errno::EINTR
-        rescue Errno::EBADF
-          return
-        end
       rescue => e
         if alive
           logger.error "Unhandled listen loop exception #{e.inspect}."
